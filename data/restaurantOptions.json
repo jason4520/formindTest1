@@ -1,0 +1,44 @@
+{
+  "restaurantOptions": [
+    {
+      "name": "Domino's",
+      "foods": "Pizza, Brookies, Chicken Nuggets"
+    },
+    {
+      "name": "Ike's Sandwiches",
+      "foods": "Sandwiches"
+    },
+    {
+      "name": "Gypsy's",
+      "foods": "Salad, Pasta, Calzones"
+    },
+    {
+      "name": "Pizza Hut",
+      "foods": "Pizza, Breadsticks"
+    },
+    {
+      "name": "Super Duper Burgers",
+      "foods": "Burgers, Fries, Shakes"
+    },
+    {
+      "name": "D'Yar",
+      "foods": "Wraps, Bowls, Falafel"
+    },
+    {
+      "name": "Tacos Sinaloa",
+      "foods": "Burritos, Tacos, Chips, Salsa"
+    },
+    {
+      "name": "Chipotle",
+      "foods": "Burrito Bowls, Burritos, Quesadillas"
+    },
+    {
+      "name": "Top Dog",
+      "foods": "Hot Dogs, Apple Juice"
+    },
+    {
+      "name": "Berkeley Thai House",
+      "foods": "Noodles, Curry, Thai Tea"
+    }
+  ]
+}
