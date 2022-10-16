@@ -29,21 +29,33 @@ const RootTabScreen = () => {
   // note that there's frequent use of options to customize appearance, and there's even more available
   // as listed in the React Navigation docs for your own projects
   return (
-    <RootTab.Navigator initialRouteName="VotingScreen">
+    <RootTab.Navigator initialRouteName="PostsScreen">
       <RootTab.Screen
         name="VotingScreen"
         component={VotingScreen}
         options={{
-          tabBarLabel: "Voting",
+          tabBarLabel: "Posts",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="ballot" color={color} size={size} />
           ),
-          title: "Voting",
+          title: "Posts",
           headerRight: SignOutButton,
         }}
       />
       <RootTab.Screen
-        name="ResultsScreen"
+        name="ChatScreen"
+        component={VotingScreen}
+        options={{
+          tabBarLabel: "Chat",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="ballot" color={color} size={size} />
+          ),
+          title: "Posts",
+          headerRight: SignOutButton,
+        }}
+      />
+      <RootTab.Screen
+        name="ProfileScreen"
         component={ResultsScreen}
         options={{
           tabBarLabel: "Results",
