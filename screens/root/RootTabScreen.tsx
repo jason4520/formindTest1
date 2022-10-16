@@ -4,8 +4,6 @@ import VotingScreen from "./VotingScreen";
 import PostScreen from "./PostScreen";
 import TreeScreen from "./TreeScreen";
 import ResultsScreen from "./ResultsScreen";
-import { auth } from "../../App";
-import { signOut } from "firebase/auth";
 import { StyleSheet } from "react-native";
 
 export type RootTabParamList = {
@@ -86,7 +84,7 @@ const RootTabScreen = () => {
       */}
       <RootTab.Screen
         name="SettingsScreen"
-        component={ResultsScreen}
+        component={TreeScreen}
         options={{
           tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (

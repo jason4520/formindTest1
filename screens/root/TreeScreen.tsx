@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import restaurantData from "./../../data/restaurantOptions.json";
 import {
   SafeAreaView,
@@ -11,9 +12,7 @@ import {
 } from "react-native";
 import RestaurantOption from "../../models/RestaurantOption";
 import { useState } from "react";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import RestaurantModel from "../../models/RestaurantModel";
-import { auth } from "../../App";
 import ErrorModal from "../../components/ErrorModal";
 import { Image } from 'react-native'
 
@@ -31,38 +30,20 @@ const TreeScreen = () => {
       restaurant1.name.localeCompare(restaurant2.name)
   );
 
-  const submitVote = async () => {
-    // #4: Firebase Firestore: update with chosen state variable later
-    if (false) {
-      setModalMessage("No restaurant chosen");
-      setShowModal(true);
-      return;
-    }
-    if (!auth.currentUser || !auth.currentUser.uid) return;
-    setVoteLoading(true);
-    try {
-      const db = getFirestore();
-      // creates a "link" into a votes collection within the database
-      const votesCollection = collection(db, "votes");
-      // #4: Firebase Firestore
-      // a given user should only be able to update their given vote
-      const uid = "";
-      const votesRef = doc(votesCollection, uid);
-      const restaurantDoc: RestaurantModel = {
-        // #4: Firebase Firestore
-        // what information should be stored inside the document?
-        user: "",
-        restaurantName: "",
-      };
-      await setDoc(votesRef, restaurantDoc);
-      setVoteLoading(false);
-    } catch (error: any) {
-      setModalMessage(error.toString());
-      setShowModal(true);
-      setVoteLoading(false);
-    }
-  };
-
+  function getData(){
+    axios.get("https://cors-anywhere.herokuapp.com/https://feat-wear.herokuapp.com/color?zodiac=scorpio")
+            .then(response => {
+                console.log('getting data from axios', response.data);
+                setTimeout(() => {
+                    setModalMessage(response.data.zodiac);
+                }, 2000)
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
+    var test;
+    
   const NoScore = () => {
     return (
       <Text style={styles.noPost}>Height: 0</Text>
@@ -71,18 +52,6 @@ const TreeScreen = () => {
   function CreateScreen(){
     return<h1>hi</h1>
   }
-  const VotingPanel = () => {
-    // #2: React Concepts
-    // how can we show the choice of a user and give them the option to clear the choice?
-    // currently it only shows a vote button (which will be implemented in part 4 later)
-    return (
-      <>
-        <Text style={styles.restaurantChosen}>Choice:</Text>
-        <Button title="Clear Choice" disabled={voteLoading} />
-        <Button title="Vote" onPress={submitVote} disabled={voteLoading} />
-      </>
-    );
-  };
 
   const renderRestaurant = ({ item }: { item: RestaurantOption }) => {
     const { name, foods } = item;
@@ -113,6 +82,8 @@ const TreeScreen = () => {
       <Image style={styles.logo} source={require('./images/trunk.png')} />
       <Image style={styles.logo} source={require('./images/stump.png')} />
     </View>
+    <button onClick={getData}></button>
+    <div>{modalMessage}</div>
     </SafeAreaView>
   );
 };

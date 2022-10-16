@@ -1,11 +1,4 @@
 import restaurantData from "./../../data/restaurantOptions.json";
-import {
-  collection,
-  getFirestore,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import RestaurantModel from "../../models/RestaurantModel";

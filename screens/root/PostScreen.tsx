@@ -10,12 +10,44 @@ import {
 } from "react-native";
 import RestaurantOption from "../../models/RestaurantOption";
 import { useState } from "react";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import RestaurantModel from "../../models/RestaurantModel";
-import { auth } from "../../App";
 import ErrorModal from "../../components/ErrorModal";
+import { initializeApp } from 'firebase/app';
+import firebaseConfig from "../../keys.json";
+import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
 
 const VotingScreen = () => {
+  const [messages, setMessages] = useState([]);
+  const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+async function getMessages() {
+  const citiesCol = collection(db, 'messages');
+  const citySnapshot = await getDocs(citiesCol);
+  console.log(citySnapshot);
+  const cityList = citySnapshot.docs.map(doc => doc.data());
+  setMessages(cityList);
+}
+function addMessage(){
+  const citiesCol = collection(db, 'messages');
+  const data = {
+    "user":"user2",
+    "text": "Bye"
+  }
+  addDoc(citiesCol, data)
+  .then(docRef => {
+      console.log("Document has been added successfully");
+  })
+  .catch(error => {
+      console.log(error);
+  });
+}
+getMessages();
+  function containsMessages(){
+    if (messages){
+      return true;
+    }
+    return false;
+  }
   // #2: React Concepts
   // how can we store the information of what restaurant has been selected?
   const [voteLoading, setVoteLoading] = useState(false);
@@ -29,42 +61,18 @@ const VotingScreen = () => {
       restaurant1.name.localeCompare(restaurant2.name)
   );
 
-  const submitVote = async () => {
-    // #4: Firebase Firestore: update with chosen state variable later
-    if (false) {
-      setModalMessage("No restaurant chosen");
-      setShowModal(true);
-      return;
-    }
-    if (!auth.currentUser || !auth.currentUser.uid) return;
-    setVoteLoading(true);
-    try {
-      const db = getFirestore();
-      // creates a "link" into a votes collection within the database
-      const votesCollection = collection(db, "votes");
-      // #4: Firebase Firestore
-      // a given user should only be able to update their given vote
-      const uid = "";
-      const votesRef = doc(votesCollection, uid);
-      const restaurantDoc: RestaurantModel = {
-        // #4: Firebase Firestore
-        // what information should be stored inside the document?
-        user: "",
-        restaurantName: "",
-      };
-      await setDoc(votesRef, restaurantDoc);
-      setVoteLoading(false);
-    } catch (error: any) {
-      setModalMessage(error.toString());
-      setShowModal(true);
-      setVoteLoading(false);
-    }
-  };
-
   const NoPosts = () => {
     return (
       <Text style={styles.noPost}>No Posts to Display</Text>
     );
+  };
+
+  const MessageList = () => {
+    var toRender = "";
+    for (let i = 0; i< messages.length; i++){
+      toRender += <div><h1>{messages[i].user}</h1><p>{messages[i].text}</p></div>;
+    }
+    return toRender;
   };
   function CreateScreen(){
     return<h1>hi</h1>
@@ -100,19 +108,10 @@ const VotingScreen = () => {
     {createMode ? 
     <div>
         <input type="text"></input>
-        <button onClick={() => setCreateMode(false)}>Cancel</button><button>Post</button>
+        <button onClick={() => setCreateMode(false)}>Cancel</button><button onClick={addMessage}>Post</button>
     </div> : 
     <div>
-      <FlatList
-        data={restaurants}
-        renderItem={renderRestaurant}
-        keyExtractor={(item) => item.name}
-        // can't surround a virtualized list in another virtualized list
-        // #2: React Concepts
-        // how can we change what component shows above the list based on if a restaurant is chosen?
-        ListHeaderComponent={<NoPosts />}
-        style={styles.restaurantList}
-      />
+      {containsMessages? <MessageList></MessageList> : <h1>No Posts</h1>}
       <button onClick={() => setCreateMode(true)}>Create Post</button>
     </div>
   }

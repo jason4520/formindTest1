@@ -1,12 +1,11 @@
 import { EntryStackScreen } from "./screens/EntryHandler";
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import { View, StyleSheet } from "react-native";
-import { getAuth } from "firebase/auth";
+import  getAuth from "firebase/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import firebaseConfig from "./keys.json";
 
-export const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
 
 export default function App() {
   return (
