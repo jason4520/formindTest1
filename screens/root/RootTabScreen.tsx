@@ -1,6 +1,8 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import VotingScreen from "./VotingScreen";
+import PostScreen from "./PostScreen";
+import TreeScreen from "./TreeScreen";
 import ResultsScreen from "./ResultsScreen";
 import { auth } from "../../App";
 import { signOut } from "firebase/auth";
@@ -29,10 +31,10 @@ const RootTabScreen = () => {
   // note that there's frequent use of options to customize appearance, and there's even more available
   // as listed in the React Navigation docs for your own projects
   return (
-    <RootTab.Navigator initialRouteName="PostsScreen">
+    <RootTab.Navigator initialRouteName="PostScreen">
       <RootTab.Screen
-        name="VotingScreen"
-        component={VotingScreen}
+        name="PostScreen"
+        component={PostScreen}
         options={{
           tabBarLabel: "Posts",
           tabBarIcon: ({ color, size }) => (
@@ -42,6 +44,7 @@ const RootTabScreen = () => {
           headerRight: SignOutButton,
         }}
       />
+      {/*
       <RootTab.Screen
         name="ChatScreen"
         component={VotingScreen}
@@ -54,15 +57,42 @@ const RootTabScreen = () => {
           headerRight: SignOutButton,
         }}
       />
+      */}
       <RootTab.Screen
-        name="ProfileScreen"
+        name="TreeScreen"
+        component={TreeScreen}
+        options={{
+          tabBarLabel: "Tree",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="ballot" color={color} size={size} />
+          ),
+          title: "Tree",
+          headerRight: SignOutButton,
+        }}
+      />
+      {/*
+      <RootTab.Screen
+        name="NotificationsScreen"
+        component={VotingScreen}
+        options={{
+          tabBarLabel: "Notifications",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="ballot" color={color} size={size} />
+          ),
+          title: "Notifications",
+          headerRight: SignOutButton,
+        }}
+      />
+      */}
+      <RootTab.Screen
+        name="SettingsScreen"
         component={ResultsScreen}
         options={{
-          tabBarLabel: "Results",
+          tabBarLabel: "Settings",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="poll" color={color} size={size} />
           ),
-          title: "Results",
+          title: "Settings",
           headerRight: SignOutButton,
         }}
       />
